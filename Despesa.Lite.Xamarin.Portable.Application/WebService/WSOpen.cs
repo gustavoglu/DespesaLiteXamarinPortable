@@ -118,12 +118,13 @@ namespace Despesa.Lite.Xamarin.Portable.Aplicacao.WebService
         public static async Task<bool> GetToken(string usuario, string senha)
         {
             string link = Constantes.Server + Constantes.Server_Token;
-            var user = (new { username = usuario, password = senha, grant_type = "password" });
+            string user = string.Format("grant_type=password&username={0}&password={1}",usuario,senha);
 
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             var teste2 = JsonConvert.SerializeObject(user);
-            var content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+            var content = new StringContent(user, Encoding.UTF8, "application/json");
+            
             try
             {
                 var response = await client.PostAsync(link, content);
@@ -144,5 +145,36 @@ namespace Despesa.Lite.Xamarin.Portable.Aplicacao.WebService
                 return false;
             }
         }
+
+        public static async Task<bool> Registrar(string nome, string email, string password,string confirmpassword, bool companhia)
+        {
+            string link = Constantes.Server + Constantes.Server_Register;
+            var usuarioregistro = new { email = email, password = password, confirmpassword = confirmpassword, nome = nome, companhia = companhia };
+
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+            var objser = JsonConvert.SerializeObject(usuarioregistro);
+
+            var content = new StringContent(objser, Encoding.UTF8,"application/json");
+            try
+            {
+                var response = await client.PostAsync(link, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+
     }
 }

@@ -10,10 +10,12 @@ namespace Despesa.Lite.Xamarin.Portable
 {
     public class App : Application
     {
+        public static NavigationPage nav_request = new NavigationPage(new P_Loguin());
+
         public App()
         {
             // The root page of your application
-            MainPage = new P_Loguin();
+            MainPage = nav_request;
         }
 
         protected override void OnStart()

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Despesa.Lite.Xamarin.Portable.Aplicacao;
+using Despesa.Lite.Xamarin.Portable.Aplicacao.WebService;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -20,7 +22,7 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Visita
             Title = "Visitas";
 
             Visitas = new ObservableCollection<Domain.Visita>();
-
+            ti_adicionar = new ToolbarItem("", "", Adicionar);
             listV_visitas = new ListView()
             {
                 ItemsSource = Visitas,
@@ -34,11 +36,33 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Visita
             sl_principal = new StackLayout() { Children = { listV_visitas } };
             this.ToolbarItems.Add(ti_adicionar);
             this.Content = sl_principal;
+
+
+            CarregaListaVisita();
         }
 
         private void ListV_visitas_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             throw new NotImplementedException();
+        }
+
+        private async void CarregaListaVisita()
+        {
+            string link = Constantes.Server + Constantes.Server_Visitas;
+            try
+            {
+                var lista = await WSOpen.Get<List<Domain.Visita>>(link);
+            }
+            catch
+            {
+
+            }
+        }
+
+
+        private void Adicionar()
+        {
+
         }
     }
 }
