@@ -22,7 +22,7 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Visita
             Title = "Visitas";
 
             Visitas = new ObservableCollection<Domain.Visita>();
-            ti_adicionar = new ToolbarItem("", "", Adicionar);
+            ti_adicionar = new ToolbarItem("", "", NovaVisita);
             listV_visitas = new ListView()
             {
                 ItemsSource = Visitas,
@@ -60,9 +60,40 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Visita
         }
 
 
-        private void Adicionar()
+        private async void NovaVisita()
         {
+            //await App.nav_request.PushAsync(new P_NovaVisita());
 
+            testeVisita();
+        }
+
+
+        async void testeVisita()
+        {
+            string link = Constantes.Server + Constantes.Server_Visitas;
+
+            var visita = new Domain.Visita()
+            {
+                Data = DateTime.Now.Date,
+                Observações = "teste",
+                HoraChegada = DateTime.Now.TimeOfDay,
+                HoraSaida = DateTime.Now.TimeOfDay,
+                TempoImprodutivo = DateTime.Now.TimeOfDay,
+                Despesas = new List<Domain.Despesa>()
+                 {
+                     new Domain.Despesa()
+                     {
+                          Detalhes = "teste",
+                           Pedagio = 10,
+                           Quilometragem = 10,
+                            Outros = 10,
+                            Refeicao = 10,
+                     }
+                 }
+
+            };
+
+            await WSOpen.Post<Domain.Visita>(link, visita);
         }
     }
 }

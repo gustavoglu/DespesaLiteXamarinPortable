@@ -36,9 +36,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="Paginas\Despesa\P_DespesaMenu.cs" />
     <Compile Include="Paginas\Loguin\P_Loguin.cs" />
     <Compile Include="Paginas\Registro\P_Registro.cs" />
     <Compile Include="Paginas\Visita\P_ListaVisitas.cs" />
+    <Compile Include="Paginas\Visita\P_NovaVisita.cs" />
     <Compile Include="Paginas\Visita\ViewModels\VM_ListaVisitas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
