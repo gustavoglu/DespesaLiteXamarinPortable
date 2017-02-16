@@ -8,7 +8,12 @@ namespace Despesa.Lite.Xamarin.Domain
 {
     public class EntityBase
     {
-        public Guid Id { get; set; }
+        public EntityBase()
+        {
+            Id = Guid.NewGuid();
+        }
+
+        public Guid? Id { get; set; }
 
         public string CriadoPor { get; set; } = "";
 

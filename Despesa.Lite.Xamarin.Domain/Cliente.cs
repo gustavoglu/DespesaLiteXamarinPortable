@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Despesa.Lite.Xamarin.Domain
 {
-   public class Cliente
+   public class Cliente : EntityBase
     {
         public string Nome { get; set; }
 

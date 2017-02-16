@@ -1,4 +1,5 @@
-﻿using Despesa.Lite.Xamarin.Portable.Aplicacao;
+﻿using Despesa.Lite.Xamarin.Domain;
+using Despesa.Lite.Xamarin.Portable.Aplicacao;
 using Despesa.Lite.Xamarin.Portable.Aplicacao.WebService;
 using System;
 using System.Collections.Generic;
@@ -71,25 +72,37 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Visita
         async void testeVisita()
         {
             string link = Constantes.Server + Constantes.Server_Visitas;
+            string linkcliente = Constantes.Server + Constantes.Server_Clientes;
 
+            var cliente = await WSOpen.Get<Cliente>(linkcliente + "/" + "ae8caf41-5495-47ac-a385-6869d723d71e");
+
+
+
+            //Cliente cliente = new Cliente()
+            //{
+            //    Nome = "teste2"
+            //    , RazaoSocial = "teste2"
+            //};
+            var Despesas = new List<Domain.Despesa>()
+             {
+                 new Domain.Despesa()
+                 {
+                      Detalhes = "teste",
+                       Pedagio = 10,
+                        Quilometragem = 10,
+                        Outros = 10,
+                        Refeicao = 10,
+                 }
+             };
             var visita = new Domain.Visita()
             {
+                id_cliente = cliente.Id,
                 Data = DateTime.Now.Date,
                 Observações = "teste",
                 HoraChegada = DateTime.Now.TimeOfDay,
                 HoraSaida = DateTime.Now.TimeOfDay,
                 TempoImprodutivo = DateTime.Now.TimeOfDay,
-                Despesas = new List<Domain.Despesa>()
-                 {
-                     new Domain.Despesa()
-                     {
-                          Detalhes = "teste",
-                           Pedagio = 10,
-                           Quilometragem = 10,
-                            Outros = 10,
-                            Refeicao = 10,
-                     }
-                 }
+                Despesas = Despesas
 
             };
 

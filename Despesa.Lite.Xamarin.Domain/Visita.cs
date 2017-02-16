@@ -8,6 +8,13 @@ namespace Despesa.Lite.Xamarin.Domain
 {
    public class Visita : EntityBase
     {
+
+        public Visita()
+        {
+            Despesas = new List<Despesa>();
+        }
+        public Guid? id_cliente { get; set; }
+
         public DateTime Data { get; set; }
 
         public TimeSpan HoraChegada { get; set; }
@@ -20,6 +27,6 @@ namespace Despesa.Lite.Xamarin.Domain
 
         public virtual ICollection<Despesa> Despesas { get; set; }
 
-        public virtual Cliente Cliente { get; set; }
+        //public virtual Cliente Cliente { get; set; }
     }
 }

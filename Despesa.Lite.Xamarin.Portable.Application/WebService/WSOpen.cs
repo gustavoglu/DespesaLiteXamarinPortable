@@ -38,13 +38,15 @@ namespace Despesa.Lite.Xamarin.Portable.Aplicacao.WebService
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", Constantes.TokenUsuario);
             var objser = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
+            var json = JsonConvert.SerializeObject(obj);
             try
             {
                 var response = await client.PostAsync(link, objser);
-
+                var content = await response.Content.ReadAsStringAsync();
+                
                 if (response.IsSuccessStatusCode)
                 {
-                    var content = await response.Content.ReadAsStringAsync();
+                   
                     var objdes = JsonConvert.DeserializeObject<T>(content);
                     return objdes;
                 }
