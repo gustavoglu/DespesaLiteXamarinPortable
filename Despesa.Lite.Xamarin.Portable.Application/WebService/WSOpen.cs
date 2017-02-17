@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Despesa.Lite.Xamarin.Domain;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -176,6 +177,33 @@ namespace Despesa.Lite.Xamarin.Portable.Aplicacao.WebService
                 return false;
             }
 
+        }
+
+        public static async Task<bool> GetClientes()
+        {
+            string link = Constantes.Server + Constantes.Server_Clientes;
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", Constantes.TokenUsuario);
+
+            var response = await client.GetAsync(link);
+            var content = await response.Content.ReadAsStringAsync();
+
+            try
+            {
+                var obj = JsonConvert.DeserializeObject<List<Cliente>>(content);
+                if (obj.Count > 0 && obj != null)
+                {
+                    Constantes.Clientes = obj;
+                }
+
+                return true;
+            }
+            catch
+            {
+                Constantes.Clientes = null;
+                return false;
+            }
         }
 
     }

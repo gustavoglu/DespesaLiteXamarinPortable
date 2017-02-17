@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace Despesa.Lite.Xamarin.Portable.Paginas.Despesa
 {
-    public class P_DespesaMenu : ContentPage
+    public class P_NovaDespesa : ContentPage
     {
         ScrollView scr_principal;
         StackLayout sl_principal;
@@ -21,6 +21,7 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Despesa
         StackLayout sl_hori_dois;
 
         ToolbarItem ti_adicionarImagem;
+        ToolbarItem ti_confirmar;
 
         Label l_quilometragem;
         Label l_pedagio;
@@ -37,7 +38,11 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Despesa
         ListView listV_despesa_imagens;
         ObservableCollection<Despesa_Imagem> list_Despesa_Imagens;
 
-        public P_DespesaMenu()
+        public delegate void EnviaDespesa(Domain.Despesa Despesa);
+
+        public event EnviaDespesa Envia;
+
+        public P_NovaDespesa()
         {
             Title = "Despesas";
 
@@ -58,7 +63,9 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Despesa
             listV_despesa_imagens = new ListView() { ItemsSource = list_Despesa_Imagens, HasUnevenRows = true };
 
             ti_adicionarImagem = new ToolbarItem("Adicionar Imagem", "", AdicionarImagem);
+            ti_confirmar = new ToolbarItem("Confirmar", "", Confirmar);
             this.ToolbarItems.Add(ti_adicionarImagem);
+            this.ToolbarItems.Add(ti_confirmar);
 
             sl_vert_um = new StackLayout() { Children = { l_quilometragem, e_quilometragem } };
             sl_vert_dois = new StackLayout() { Children = { l_pedagio, e_pedagio } };
@@ -68,17 +75,50 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Despesa
             sl_hori_um = new StackLayout() { Orientation = StackOrientation.Horizontal, Children = { sl_vert_um, sl_vert_dois } };
             sl_hori_dois = new StackLayout() { Orientation = StackOrientation.Horizontal, Children = { sl_vert_tres, sl_vert_quatro } };
 
-            sl_principal = new StackLayout() { Children = { sl_hori_um,sl_hori_dois, l_detalhes,ed_detalhes,listV_despesa_imagens} };
+            sl_principal = new StackLayout() { Children = { sl_hori_um, sl_hori_dois, l_detalhes, ed_detalhes, listV_despesa_imagens } };
 
             scr_principal.Content = sl_principal;
 
             this.Content = scr_principal;
-        }
 
+        }
 
         protected void AdicionarImagem()
         {
 
+        }
+
+        private void Confirmar()
+        {
+            var despesa = NovaDespesa();
+
+            if (despesa != null)
+            {
+                Envia(NovaDespesa());
+            }
+      
+            Navigation.PopModalAsync(true);
+        }
+
+        private Domain.Despesa NovaDespesa()
+        {
+            try
+            {
+                var despesa = new Domain.Despesa()
+                {
+                    Detalhes = ed_detalhes.Text,
+                    Outros = Double.Parse(e_outros.Text),
+                    Quilometragem = int.Parse(e_quilometragem.Text),
+                    Refeicao = Double.Parse(e_refeicao.Text),
+                    Pedagio = Double.Parse(e_pedagio.Text)
+                };
+
+                return despesa;
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

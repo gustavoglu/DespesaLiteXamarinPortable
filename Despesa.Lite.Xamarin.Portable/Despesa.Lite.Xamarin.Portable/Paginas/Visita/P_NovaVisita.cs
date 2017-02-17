@@ -1,6 +1,8 @@
-﻿using Despesa.Lite.Xamarin.Portable.Aplicacao;
+﻿using Despesa.Lite.Xamarin.Domain;
+using Despesa.Lite.Xamarin.Portable.Aplicacao;
 using Despesa.Lite.Xamarin.Portable.Aplicacao.WebService;
 using Despesa.Lite.Xamarin.Portable.Paginas.Despesa;
+using Despesa.Lite.Xamarin.Portable.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,10 +38,18 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Visita
         Picker p_cliente;
 
         ToolbarItem ti_despesas;
+        ToolbarItem ti_confirmar;
+
+        P_NovaDespesa Page_NovaDespesa;
+
+        List<Domain.Despesa> list_despesas;
 
         public P_NovaVisita()
         {
             Title = "Nova Visita";
+
+            Page_NovaDespesa = new P_NovaDespesa();
+            Page_NovaDespesa.Envia += Page_NovaDespesa_Envia;
 
             l_data = new Label() { Text = "Data" };
             l_horaChegada = new Label() { Text = "Hora Chegada" }; ;
@@ -60,8 +70,13 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Visita
 
             scr_principal = new ScrollView();
 
+            list_despesas = new List<Domain.Despesa>();
+
             ti_despesas = new ToolbarItem("Despesas", "", Despesas);
+            ti_confirmar = new ToolbarItem("Confirmar", "", Confirmar);
+
             this.ToolbarItems.Add(ti_despesas);
+            this.ToolbarItems.Add(ti_confirmar);
 
             sl_chegada_hori = new StackLayout() { Orientation = StackOrientation.Horizontal, Children = { tp_horaChegada, b_chegada } };
             sl_saida_hori = new StackLayout() { Orientation = StackOrientation.Horizontal, Children = { tp_horaSaida, b_saida } };
@@ -70,12 +85,87 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Visita
             scr_principal.Content = sl_principal;
 
             this.Content = scr_principal;
+
+            PopulaPickers();
+
+
+        }
+
+        private void Page_NovaDespesa_Envia(Domain.Despesa Despesa)
+        {
+            list_despesas.Add(Despesa);
         }
 
         private async void Despesas()
         {
-            await App.nav_request.PushAsync(new P_DespesaMenu());
+            await Navigation.PushModalAsync(Page_NovaDespesa,true);
         }
+
+        private async void Confirmar()
+        {
+            string link = Constantes.Server + Constantes.Server_Visitas;
+
+            var post = await WSOpen.Post(link, NovaVisita());
+        }
+
+        private Domain.Visita NovaVisita()
+        {
+            string clienteSelecionado = Utilidades.RetornaStringSelecionadoPicker(p_cliente);
+
+            string tempoImprodutivoSelecionado = Utilidades.RetornaStringSelecionadoPicker(p_tempoImprodutivo);
+
+            Guid? id_cliente = Constantes.Clientes.SingleOrDefault(c => c.Nome == clienteSelecionado).Id;
+
+            Domain.Visita Visita = new Domain.Visita()
+            {
+                Data = dp_data.Date,
+                id_cliente = id_cliente,
+                HoraChegada = tp_horaChegada.Time,
+                HoraSaida = tp_horaSaida.Time,
+                Observações = ed_observacoes.Text,
+                TempoImprodutivo = TimeSpan.Parse(tempoImprodutivoSelecionado)
+
+            };
+
+            if (list_despesas != null && list_despesas.Count > 0)
+            {
+                foreach (var despesa in list_despesas)
+                {
+                    Visita.Despesas.Add(despesa);
+                }
+            }
+
+            return Visita;
+        }
+
+        private async void PopulaPickers()
+        {
+           var retorno = await WSOpen.GetClientes();
+
+            if (Constantes.Clientes != null && Constantes.Clientes.Count > 0)
+            {
+                List<string> listaClientesNomeStrings = new List<string>();
+
+                foreach (var cliente in Constantes.Clientes)
+                {
+                    listaClientesNomeStrings.Add(cliente.Nome);
+                }
+
+                foreach (var nome in listaClientesNomeStrings)
+                {
+                    p_cliente.Items.Add(nome);
+
+                }
+            }
+
+            foreach (var item in Constantes.Tempo)
+            {
+                p_tempoImprodutivo.Items.Add(item);
+            }
+
+
+        }
+            
 
     }
 }

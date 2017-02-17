@@ -27,6 +27,6 @@ namespace Despesa.Lite.Xamarin.Domain
 
         public virtual ICollection<Despesa> Despesas { get; set; }
 
-        //public virtual Cliente Cliente { get; set; }
+        public virtual Cliente Cliente { get; set; }
     }
 }

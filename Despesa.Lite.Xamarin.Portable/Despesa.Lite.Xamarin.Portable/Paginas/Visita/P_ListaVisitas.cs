@@ -53,6 +53,19 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Visita
             try
             {
                 var lista = await WSOpen.Get<List<Domain.Visita>>(link);
+                if (lista != null || lista.Count > 0)
+                {
+                    foreach (var item in lista)
+                    {
+                        Visitas.Add(item);
+                    }
+
+                }
+                else
+                {
+
+                }
+
             }
             catch
             {
@@ -60,14 +73,10 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Visita
             }
         }
 
-
         private async void NovaVisita()
         {
-            //await App.nav_request.PushAsync(new P_NovaVisita());
-
-            testeVisita();
+            await App.nav_request.PushAsync(new P_NovaVisita());
         }
-
 
         async void testeVisita()
         {

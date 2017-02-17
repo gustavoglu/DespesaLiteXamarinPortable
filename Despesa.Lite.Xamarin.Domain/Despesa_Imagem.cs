@@ -10,5 +10,6 @@ namespace Despesa.Lite.Xamarin.Domain
 
         public string imagem_link { get; set; } = "";
 
+        public virtual Despesa Despesa { get; set; }
     }
 }
