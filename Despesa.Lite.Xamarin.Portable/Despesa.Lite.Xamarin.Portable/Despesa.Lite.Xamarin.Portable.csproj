@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="Paginas\Cliente\P_ClientesMain.cs" />
     <Compile Include="Paginas\Despesa\P_NovaDespesa.cs" />
     <Compile Include="Paginas\Loguin\P_Loguin.cs" />
     <Compile Include="Paginas\Registro\P_Registro.cs" />

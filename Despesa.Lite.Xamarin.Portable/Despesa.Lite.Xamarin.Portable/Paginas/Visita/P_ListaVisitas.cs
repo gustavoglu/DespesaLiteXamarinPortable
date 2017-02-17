@@ -1,6 +1,7 @@
 ﻿using Despesa.Lite.Xamarin.Domain;
 using Despesa.Lite.Xamarin.Portable.Aplicacao;
 using Despesa.Lite.Xamarin.Portable.Aplicacao.WebService;
+using Despesa.Lite.Xamarin.Portable.Paginas.Cliente;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,6 +17,7 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Visita
         protected StackLayout sl_principal;
         protected ListView listV_visitas;
         protected ToolbarItem ti_adicionar;
+        protected ToolbarItem ti_clientes;
         protected ObservableCollection<Domain.Visita> Visitas;
 
         public P_ListaVisitas()
@@ -23,7 +25,8 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Visita
             Title = "Visitas";
 
             Visitas = new ObservableCollection<Domain.Visita>();
-            ti_adicionar = new ToolbarItem("", "", NovaVisita);
+            ti_adicionar = new ToolbarItem("Nova Visita", "", NovaVisita);
+            ti_clientes = new ToolbarItem("Clientes", "", Clientes);
             listV_visitas = new ListView()
             {
                 ItemsSource = Visitas,
@@ -36,6 +39,7 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Visita
 
             sl_principal = new StackLayout() { Children = { listV_visitas } };
             this.ToolbarItems.Add(ti_adicionar);
+            this.ToolbarItems.Add(ti_clientes);
             this.Content = sl_principal;
 
 
@@ -45,6 +49,11 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Visita
         private void ListV_visitas_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             throw new NotImplementedException();
+        }
+
+        private async void Clientes()
+        {
+            await App.nav_request.PushAsync(new P_ClientesMain());
         }
 
         private async void CarregaListaVisita()
@@ -83,7 +92,7 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Visita
             string link = Constantes.Server + Constantes.Server_Visitas;
             string linkcliente = Constantes.Server + Constantes.Server_Clientes;
 
-            var cliente = await WSOpen.Get<Cliente>(linkcliente + "/" + "ae8caf41-5495-47ac-a385-6869d723d71e");
+            var cliente = await WSOpen.Get<Domain.Cliente>(linkcliente + "/" + "ae8caf41-5495-47ac-a385-6869d723d71e");
 
 
 

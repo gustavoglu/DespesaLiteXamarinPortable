@@ -73,6 +73,7 @@ namespace Despesa.Lite.Xamarin.Portable.Aplicacao.WebService
             try
             {
                 var response = await client.PutAsync(link, objser);
+                var contentst = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
