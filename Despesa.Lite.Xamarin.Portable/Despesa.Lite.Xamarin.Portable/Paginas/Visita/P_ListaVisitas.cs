@@ -2,6 +2,7 @@
 using Despesa.Lite.Xamarin.Portable.Aplicacao;
 using Despesa.Lite.Xamarin.Portable.Aplicacao.WebService;
 using Despesa.Lite.Xamarin.Portable.Paginas.Cliente;
+using Despesa.Lite.Xamarin.Portable.Paginas.Usuario;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,6 +19,7 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Visita
         protected ListView listV_visitas;
         protected ToolbarItem ti_adicionar;
         protected ToolbarItem ti_clientes;
+        protected ToolbarItem ti_meususuarios;
         protected ObservableCollection<Domain.Visita> Visitas;
 
         public P_ListaVisitas()
@@ -25,8 +27,7 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Visita
             Title = "Visitas";
 
             Visitas = new ObservableCollection<Domain.Visita>();
-            ti_adicionar = new ToolbarItem("Nova Visita", "", NovaVisita);
-            ti_clientes = new ToolbarItem("Clientes", "", Clientes);
+
             listV_visitas = new ListView()
             {
                 ItemsSource = Visitas,
@@ -35,11 +36,15 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Visita
 
             listV_visitas.ItemTapped += ListV_visitas_ItemTapped;
 
-
-
-            sl_principal = new StackLayout() { Children = { listV_visitas } };
+            ti_adicionar = new ToolbarItem("Nova Visita", "", NovaVisita);
+            ti_clientes = new ToolbarItem("Clientes", "", Clientes);
+            ti_meususuarios = new ToolbarItem("Meu Usuarios", "", MeusUsuarios);
             this.ToolbarItems.Add(ti_adicionar);
             this.ToolbarItems.Add(ti_clientes);
+            this.ToolbarItems.Add(ti_meususuarios);
+
+            sl_principal = new StackLayout() { Children = { listV_visitas } };
+
             this.Content = sl_principal;
 
 
@@ -54,6 +59,11 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Visita
         private async void Clientes()
         {
             await App.nav_request.PushAsync(new P_ClientesMain());
+        }
+
+        private void MeusUsuarios()
+        {
+            App.nav_request.PushAsync(new P_MeusUsuarios());
         }
 
         private async void CarregaListaVisita()

@@ -40,6 +40,9 @@
     <Compile Include="Paginas\Despesa\P_NovaDespesa.cs" />
     <Compile Include="Paginas\Loguin\P_Loguin.cs" />
     <Compile Include="Paginas\Registro\P_Registro.cs" />
+    <Compile Include="Paginas\Usuario\P_MeusUsuarios.cs" />
+    <Compile Include="Paginas\Usuario\P_UsuarioAddCliente.cs" />
+    <Compile Include="Paginas\Usuario\P_UsuarioClientes.cs" />
     <Compile Include="Paginas\Visita\P_ListaVisitas.cs" />
     <Compile Include="Paginas\Visita\P_NovaVisita.cs" />
     <Compile Include="Paginas\Visita\ViewModels\VM_ListaVisitas.cs" />

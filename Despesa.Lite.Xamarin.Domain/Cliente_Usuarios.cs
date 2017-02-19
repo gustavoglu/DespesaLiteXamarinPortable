@@ -13,5 +13,7 @@ namespace Despesa.Lite.Xamarin.Domain
         public Guid? id_cliente { get; set; }
 
         public virtual ApplicationUser Usuario { get; set; }
+
+        public virtual Cliente Cliente{ get; set; }
     }
 }

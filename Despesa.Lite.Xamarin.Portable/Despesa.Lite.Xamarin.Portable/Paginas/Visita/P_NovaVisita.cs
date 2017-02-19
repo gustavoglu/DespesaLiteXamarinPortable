@@ -140,22 +140,29 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Visita
 
         private async void PopulaPickers()
         {
-           var retorno = await WSOpen.GetClientes();
-
-            if (Constantes.Clientes != null && Constantes.Clientes.Count > 0)
+            try
             {
-                List<string> listaClientesNomeStrings = new List<string>();
+                var retorno = await WSOpen.GetClientes();
 
-                foreach (var cliente in Constantes.Clientes)
+                if (Constantes.Clientes != null && Constantes.Clientes.Count > 0)
                 {
-                    listaClientesNomeStrings.Add(cliente.Nome);
-                }
+                    List<string> listaClientesNomeStrings = new List<string>();
 
-                foreach (var nome in listaClientesNomeStrings)
-                {
-                    p_cliente.Items.Add(nome);
+                    foreach (var cliente in Constantes.Clientes)
+                    {
+                        listaClientesNomeStrings.Add(cliente.Nome);
+                    }
 
+                    foreach (var nome in listaClientesNomeStrings)
+                    {
+                        p_cliente.Items.Add(nome);
+
+                    }
                 }
+            }
+            catch
+            {
+
             }
 
             foreach (var item in Constantes.Tempo)
