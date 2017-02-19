@@ -20,10 +20,15 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Usuario
         ObservableCollection<Domain.Cliente> Clientes;
         List<Domain.Cliente> ClientesAdicionados;
         Label l_tituloLista;
+        P_UsuarioAddCliente Page_UsuarioAdicionarCliente;
 
         public P_UsuarioClientes(ApplicationUser usuario)
         {
             Title = usuario.Nome;
+
+            Page_UsuarioAdicionarCliente = new P_UsuarioAddCliente(new List<Domain.Cliente>());
+
+            P_UsuarioAddCliente.ClientesSelecionados_Handler += Page_UsuarioAdicionarCliente_ClientesSelecionados_Handler;
 
             this._usuario = usuario;
 
@@ -45,9 +50,28 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Usuario
 
         }
 
+        private void Page_UsuarioAdicionarCliente_ClientesSelecionados_Handler(List<Domain.Cliente> ClientesAAdicionar, List<Domain.Cliente> ClientesARemover)
+        {
+            foreach (var aremover in ClientesARemover)
+            {
+                if (Clientes.ToList().Exists(c => c.Id == aremover.Id))
+                {
+                    Clientes.Remove(aremover);
+                }
+            }
+
+            foreach (var aadicionar in ClientesAAdicionar)
+            {
+                if (!Clientes.ToList().Exists(c => c.Id == aadicionar.Id))
+                {
+                    Clientes.Add(aadicionar);
+                }
+            }
+        }
+
         private async void AdicionarClienteAoUsuario()
         {
-            await Navigation.PushModalAsync(new P_UsuarioAddCliente());
+            await Navigation.PushModalAsync(Page_UsuarioAdicionarCliente);
         }
 
         private async void CarregaClientesUsuario()
@@ -64,7 +88,9 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Usuario
                         Clientes.Add(clienteusuario.Cliente);
                     }
                 }
-             
+
+                Page_UsuarioAdicionarCliente = new P_UsuarioAddCliente(Clientes.ToList());
+
             }
             catch
             {
