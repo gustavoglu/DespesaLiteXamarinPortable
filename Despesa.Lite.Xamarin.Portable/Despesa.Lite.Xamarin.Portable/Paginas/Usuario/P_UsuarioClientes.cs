@@ -21,20 +21,21 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Usuario
         List<Domain.Cliente> ClientesAdicionados;
         Label l_tituloLista;
         P_UsuarioAddCliente Page_UsuarioAdicionarCliente;
+        ObservableCollection<Cliente_Usuarios> Cliente_Usuarios;
 
         public P_UsuarioClientes(ApplicationUser usuario)
         {
             Title = usuario.Nome;
 
-            Page_UsuarioAdicionarCliente = new P_UsuarioAddCliente(new List<Domain.Cliente>());
+           // Page_UsuarioAdicionarCliente = new P_UsuarioAddCliente(Cliente_Usuarios.ToList(), _usuario);
 
-            P_UsuarioAddCliente.ClientesSelecionados_Handler += Page_UsuarioAdicionarCliente_ClientesSelecionados_Handler;
+            P_UsuarioAddCliente.AtualizarLista_Handler += P_UsuarioAddCliente_AtualizarLista_Handler; ;
 
             this._usuario = usuario;
 
             l_tituloLista = new Label() { Text = "Clientes deste Usuario" };
 
-            Clientes = new ObservableCollection<Domain.Cliente>();
+            Cliente_Usuarios = new ObservableCollection<Cliente_Usuarios>();
 
             ListV_Clientes = new ListView() { HasUnevenRows = true, ItemsSource = Clientes };
 
@@ -48,6 +49,12 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Usuario
             CarregaClientesUsuario();
 
 
+        }
+
+        private void P_UsuarioAddCliente_AtualizarLista_Handler()
+        {
+            Cliente_Usuarios.Clear();
+            CarregaClientesUsuario();
         }
 
         private void Page_UsuarioAdicionarCliente_ClientesSelecionados_Handler(List<Domain.Cliente> ClientesAAdicionar, List<Domain.Cliente> ClientesARemover)
@@ -71,7 +78,7 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Usuario
 
         private async void AdicionarClienteAoUsuario()
         {
-            await Navigation.PushModalAsync(Page_UsuarioAdicionarCliente);
+            await Navigation.PushModalAsync(new P_UsuarioAddCliente(Cliente_Usuarios.ToList(), _usuario));
         }
 
         private async void CarregaClientesUsuario()
@@ -83,13 +90,13 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Usuario
 
                 if (cliente_usuarios != null && cliente_usuarios.Count > 0)
                 {
-                    foreach (var clienteusuario in cliente_usuarios)
+                    foreach (var item in cliente_usuarios)
                     {
-                        Clientes.Add(clienteusuario.Cliente);
+                        Cliente_Usuarios.Add(item);
                     }
                 }
 
-                Page_UsuarioAdicionarCliente = new P_UsuarioAddCliente(Clientes.ToList());
+                //Page_UsuarioAdicionarCliente = new P_UsuarioAddCliente(Cliente_Usuarios.ToList(), _usuario);
 
             }
             catch

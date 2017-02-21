@@ -8,6 +8,7 @@ namespace Despesa.Lite.Xamarin.Domain
 {
     public class ApplicationUser
     {
+        public string Id { get; set; }
 
         public string UserName{ get; set; }
 

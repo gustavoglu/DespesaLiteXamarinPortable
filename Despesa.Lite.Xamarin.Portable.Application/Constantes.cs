@@ -42,6 +42,10 @@ namespace Despesa.Lite.Xamarin.Portable.Aplicacao
 
         public const string Server_Cliente_Usuarios= "api/Cliente_Usuarios";
 
+        public const string Server_Cliente_UsuariosLista = "api/Cliente_UsuariosLista";
+
+        public const string Server_Cliente_UsuariosListaDelete = "api/Cliente_UsuariosListaDelete";
+
 
 
 
