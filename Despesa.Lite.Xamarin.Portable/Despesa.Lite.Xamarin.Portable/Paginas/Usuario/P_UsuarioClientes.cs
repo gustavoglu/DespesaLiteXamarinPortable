@@ -37,7 +37,7 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Usuario
 
             Cliente_Usuarios = new ObservableCollection<Cliente_Usuarios>();
 
-            ListV_Clientes = new ListView() { HasUnevenRows = true, ItemsSource = Clientes };
+            ListV_Clientes = new ListView() { HasUnevenRows = true, ItemsSource = Cliente_Usuarios };
 
             ti_adicionarCliente = new ToolbarItem("Adicionar Cliente", "", AdicionarClienteAoUsuario);
 
@@ -83,7 +83,7 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Usuario
 
         private async void CarregaClientesUsuario()
         {
-            string link = Constantes.Server + Constantes.Server_Cliente_Usuarios;
+            string link = Constantes.Server + Constantes.Server_Cliente_Usuarios_TrazerClientesDoUsuario + "?id=" + _usuario.Id;
             try
             {
                 var cliente_usuarios = await WSOpen.Get<List<Domain.Cliente_Usuarios>>(link);

@@ -19,7 +19,7 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Usuario
         ToolbarItem ti_adicionarClientes;
         ObservableCollection<VM_SelecionaClientes> VM_Clientes;
         ListView listV_Clientes;
-        List<Domain.Cliente_Usuarios> _cliente_UsuariosDoUsuario;
+        List<Domain.Cliente_Usuarios> _cliente_ClientesDoUsuario;
         ApplicationUser _usuario;
 
         public delegate void AtualizarLista();
@@ -30,7 +30,7 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Usuario
         {
             Title = "Adicionar Clientes ao Usuario";
 
-            _cliente_UsuariosDoUsuario = clientesDoUsuario;
+            _cliente_ClientesDoUsuario = clientesDoUsuario;
             _usuario = usuario;
 
             VM_Clientes = new ObservableCollection<VM_SelecionaClientes>();
@@ -65,10 +65,11 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Usuario
 
             List<Domain.Cliente> ClientesAAdicionar = new List<Domain.Cliente>();
 
+            var a = VM_Clientes.Where(s => s.Selecionado == true);
 
             foreach (var vmclientes in VM_Clientes.Where(s => s.Selecionado == true))
             {
-                if (!_cliente_UsuariosDoUsuario.Exists(c => c.Id == vmclientes._cliente.Id))
+                if (!_cliente_ClientesDoUsuario.Exists(c => c.id_cliente == vmclientes._cliente.Id))
                 {
                     ClientesAAdicionar.Add(vmclientes._cliente);
                 }
@@ -76,20 +77,20 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Usuario
 
             foreach (var vmclientes in VM_Clientes.Where(s => s.Selecionado == false))
             {
-                if (_cliente_UsuariosDoUsuario.Exists(c => c.id_cliente == vmclientes._cliente.Id))
+                if (_cliente_ClientesDoUsuario.Exists(c => c.id_cliente == vmclientes._cliente.Id))
                 {
-                    ClientesARemover.Add(_cliente_UsuariosDoUsuario.SingleOrDefault(c => c.id_cliente == vmclientes._cliente.Id));
+                    ClientesARemover.Add(_cliente_ClientesDoUsuario.SingleOrDefault(c => c.id_cliente == vmclientes._cliente.Id));
                 }
             }
 
             if (ClientesARemover.Count > 0 )
             {
-                RemoverClientes(ClientesARemover);
+               await RemoverClientes(ClientesARemover);
             }
 
             if (ClientesAAdicionar.Count > 0)
             {
-                AdicionaClientes(ClientesAAdicionar);
+                await AdicionaClientes(ClientesAAdicionar);
             }
 
             if (ClientesAAdicionar.Count > 0 || ClientesARemover.Count > 0)
@@ -112,7 +113,14 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Usuario
                 {
                     foreach (var cliente in Constantes.Clientes)
                     {
-                        VM_Clientes.Add(new VM_SelecionaClientes(cliente));
+                        if (_cliente_ClientesDoUsuario.Exists(c => c.id_cliente == cliente.Id))
+                        {
+                            VM_Clientes.Add(new VM_SelecionaClientes(cliente) { Selecionado = true});
+                        }
+                        else
+                        {
+                            VM_Clientes.Add(new VM_SelecionaClientes(cliente));
+                        }
                     }
 
                 }
@@ -123,7 +131,7 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Usuario
             }
         }
 
-        private async void AdicionaClientes(List<Domain.Cliente> ClientesAAdicionar)
+        private async Task AdicionaClientes(List<Domain.Cliente> ClientesAAdicionar)
         {
             List<Cliente_Usuarios> Cliente_UsuariosAAdicionar = new List<Cliente_Usuarios>();
 
@@ -148,7 +156,7 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Usuario
             }
         }
 
-        private async void RemoverClientes(List<Domain.Cliente_Usuarios> Clientes_UsuariosARemover)
+        private async Task RemoverClientes(List<Domain.Cliente_Usuarios> Clientes_UsuariosARemover)
         {
             string link = Constantes.Server + Constantes.Server_Cliente_UsuariosListaDelete;
 
@@ -161,6 +169,8 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Usuario
 
             }
         }
+
+ 
 
     }
 
