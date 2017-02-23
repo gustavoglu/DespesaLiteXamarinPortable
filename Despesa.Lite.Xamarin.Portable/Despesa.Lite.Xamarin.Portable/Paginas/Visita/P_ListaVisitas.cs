@@ -3,6 +3,7 @@ using Despesa.Lite.Xamarin.Portable.Aplicacao;
 using Despesa.Lite.Xamarin.Portable.Aplicacao.WebService;
 using Despesa.Lite.Xamarin.Portable.Paginas.Cliente;
 using Despesa.Lite.Xamarin.Portable.Paginas.Usuario;
+using Despesa.Lite.Xamarin.Portable.Paginas.Usuario_Solicitacao;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,6 +21,7 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Visita
         protected ToolbarItem ti_adicionar;
         protected ToolbarItem ti_clientes;
         protected ToolbarItem ti_meususuarios;
+        protected ToolbarItem ti_solicitacoes;
         protected ObservableCollection<Domain.Visita> Visitas;
 
         public P_ListaVisitas()
@@ -38,10 +40,12 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Visita
 
             ti_adicionar = new ToolbarItem("Nova Visita", "", NovaVisita);
             ti_clientes = new ToolbarItem("Clientes", "", Clientes);
-            ti_meususuarios = new ToolbarItem("Meu Usuarios", "", MeusUsuarios);
+            ti_meususuarios = new ToolbarItem("Meus Usuarios", "", MeusUsuarios);
+            ti_solicitacoes = new ToolbarItem("Solicitações", "", Solicitacoes);
             this.ToolbarItems.Add(ti_adicionar);
             this.ToolbarItems.Add(ti_clientes);
             this.ToolbarItems.Add(ti_meususuarios);
+            this.ToolbarItems.Add(ti_solicitacoes);
 
             sl_principal = new StackLayout() { Children = { listV_visitas } };
 
@@ -135,6 +139,11 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Visita
             };
 
             await WSOpen.Post<Domain.Visita>(link, visita);
+        }
+
+        async void Solicitacoes()
+        {
+            await App.nav_request.PushAsync(new P_Usuario_SolicitacoesLista());
         }
     }
 }

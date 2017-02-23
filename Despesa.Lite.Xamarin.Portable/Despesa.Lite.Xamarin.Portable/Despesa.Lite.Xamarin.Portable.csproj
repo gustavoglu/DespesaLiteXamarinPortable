@@ -45,8 +45,11 @@
     <Compile Include="Paginas\Usuario\P_UsuarioClientes.cs" />
     <Compile Include="Paginas\Usuario\ViewCells\VC_UsuarioAddClienteLista.cs" />
     <Compile Include="Paginas\Usuario\ViewModels\VM_SelecionaClientes.cs" />
-    <Compile Include="Paginas\Usuario_Solicitacao\P_Usuario_SolicitacoesEnviar.cs" />
+    <Compile Include="Paginas\Usuario_Solicitacao\P_Usuario_SolicitacoesNovaSolicitacao.cs" />
     <Compile Include="Paginas\Usuario_Solicitacao\P_Usuario_SolicitacoesLista.cs" />
+    <Compile Include="Paginas\Usuario_Solicitacao\ViewCells\VC_Usuario_SolicitacoesLista.cs" />
+    <Compile Include="Paginas\Usuario_Solicitacao\ViewCells\VC_Usuario_SolicitacoesListaCompanhia.cs" />
+    <Compile Include="Paginas\Usuario_Solicitacao\ViewModels\VM_Usuario_Solicitacoes.cs" />
     <Compile Include="Paginas\Visita\P_ListaVisitas.cs" />
     <Compile Include="Paginas\Visita\P_NovaVisita.cs" />
     <Compile Include="Paginas\Visita\ViewModels\VM_ListaVisitas.cs" />
@@ -76,8 +79,6 @@
     <Folder Include="Paginas\Cliente\ViewModels\" />
     <Folder Include="Paginas\Despesa\ViewCells\" />
     <Folder Include="Paginas\Despesa\ViewModels\" />
-    <Folder Include="Paginas\Usuario_Solicitacao\ViewCells\" />
-    <Folder Include="Paginas\Usuario_Solicitacao\ViewModels\" />
     <Folder Include="Paginas\Visita\ViewCells\" />
   </ItemGroup>
   <ItemGroup>

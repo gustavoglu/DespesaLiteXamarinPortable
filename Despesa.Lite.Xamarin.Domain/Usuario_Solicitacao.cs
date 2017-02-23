@@ -16,6 +16,10 @@ namespace Despesa.Lite.Xamarin.Domain
 
         public int Status { get; set; }
 
+        public string id_usuario { get; set; }
+
+        public string id_companhia { get; set; }
+
         public virtual ApplicationUser Usuario { get; set; }
 
         public virtual ApplicationUser Companhia { get; set; }
