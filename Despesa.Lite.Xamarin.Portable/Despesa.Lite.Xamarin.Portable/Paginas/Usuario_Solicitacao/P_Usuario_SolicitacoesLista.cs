@@ -9,10 +9,11 @@ using Xamarin.Forms;
 using Despesa.Lite.Xamarin.Portable.Aplicacao;
 using Despesa.Lite.Xamarin.Portable.Aplicacao.WebService;
 using Despesa.Lite.Xamarin.Portable.Paginas.Usuario_Solicitacao.ViewModels;
+using Despesa.Lite.Xamarin.Portable.Paginas.Usuario_Solicitacao.ViewCells;
 
 namespace Despesa.Lite.Xamarin.Portable.Paginas.Usuario_Solicitacao
 {
-   public class P_Usuario_SolicitacoesLista : ContentPage
+    public class P_Usuario_SolicitacoesLista : ContentPage
     {
         ListView listV_Usuario_Solicitacoes;
         ObservableCollection<VM_Usuario_Solicitacoes> Usuario_Solicitacoes;
@@ -22,9 +23,12 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Usuario_Solicitacao
         {
             Title = "Solicitações de Usuarios";
 
+            VC_Usuario_SolicitacoesLista.AceitarHandler += VC_Usuario_SolicitacoesLista_AceitarHandler;
+            VC_Usuario_SolicitacoesLista.RejeitarHandler += VC_Usuario_SolicitacoesLista_RejeitarHandler;
+
             Usuario_Solicitacoes = new ObservableCollection<VM_Usuario_Solicitacoes>();
             listV_Usuario_Solicitacoes = new ListView() { HasUnevenRows = true, ItemsSource = Usuario_Solicitacoes };
-            listV_Usuario_Solicitacoes.ItemTemplate = new DataTemplate(typeof(VM_Usuario_Solicitacoes));
+            listV_Usuario_Solicitacoes.ItemTemplate = new DataTemplate(typeof(VC_Usuario_SolicitacoesLista));
             ti_NovaSolicitacao = new ToolbarItem("Nova Solicitação", "", NovaSolicitacao);
 
             this.ToolbarItems.Add(ti_NovaSolicitacao);
@@ -33,7 +37,45 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Usuario_Solicitacao
             CarregaSolicitacoes();
         }
 
-        private async void NovaSolicitacao()
+        private async void VC_Usuario_SolicitacoesLista_RejeitarHandler(Domain.Usuario_Solicitacao solicitacao)
+        {
+            string link = Constantes.Server + Constantes.Server_Usuario_Solicitacoes_Recusar + "/" + solicitacao.Id;
+
+           try
+            {
+                var resposta = await WSOpen.Put(link, solicitacao);
+                if (resposta != null)
+                {
+
+                }
+            }
+            catch
+            {
+                
+            }
+        }
+
+        private async void VC_Usuario_SolicitacoesLista_AceitarHandler(Domain.Usuario_Solicitacao solicitacao)
+        {
+            string link = Constantes.Server + Constantes.Server_Usuario_Solicitacoes_Aceitar + "?id=" + solicitacao.Id;
+
+            try
+            {
+                var resposta = await WSOpen.Put(link, solicitacao);
+                if (resposta != null)
+                {
+
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
+    
+
+    private async void NovaSolicitacao()
         {
             await Navigation.PushModalAsync(new P_Usuario_SolicitacoesNovaSolicitacao());
         }
@@ -41,23 +83,24 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Usuario_Solicitacao
         private async void CarregaSolicitacoes()
         {
             string link = Constantes.Server + Constantes.Server_Usuario_Solicitacoes;
-            try
+            //try
+            //{
+
+            var retorno = await WSOpen.Get<List<Domain.Usuario_Solicitacao>>(link);
+
+            if (retorno != null && retorno.Count > 0)
             {
-
-                var retorno = await WSOpen.Get<List<Domain.Usuario_Solicitacao>>(link);
-
-                if (retorno != null && retorno.Count > 0)
+                foreach (var item in retorno)
                 {
-                    foreach (var item in retorno)
-                    {
-                        Usuario_Solicitacoes.Add(new VM_Usuario_Solicitacoes(item));
-                    }
+                    var vm = new VM_Usuario_Solicitacoes(item);
+                    Usuario_Solicitacoes.Add(vm);
                 }
-
-            }catch
-            {
-
             }
+
+            //}catch
+            //{
+            //
+            //}
         }
     }
 }

@@ -12,13 +12,13 @@ namespace Despesa.Lite.Xamarin.Domain
 
         public DateTime? DataResposta { get; set; }
 
-        public bool Confirmado { get; set; }
+        public bool? Confirmado { get; set; }
 
-        public int Status { get; set; }
+        public int? Status { get; set; }
 
-        public string id_usuario { get; set; }
+        public string id_usuario { get; set; } = "";
 
-        public string id_companhia { get; set; }
+        public string id_companhia { get; set; } = "";
 
         public virtual ApplicationUser Usuario { get; set; }
 

@@ -10,15 +10,15 @@ namespace Despesa.Lite.Xamarin.Domain
     {
         public string Id { get; set; }
 
-        public string UserName{ get; set; }
+        public string UserName { get; set; } = "";
 
-        public string Nome { get; set; }
+        public string Nome { get; set; } = "";
 
-        public bool Companhia { get; set; }
+        public bool? Companhia { get; set; }
 
-        public bool Ativo { get; set; }
+        public bool? Ativo { get; set; }
 
-        public bool Deletado { get; set; }
+        public bool? Deletado { get; set; }
 
         public virtual ICollection<Cliente_Usuarios> Cliente_Usuarios { get; set; }
 

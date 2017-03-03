@@ -34,6 +34,10 @@ namespace Despesa.Lite.Xamarin.Portable.Aplicacao
 
         public const string Server_Usuario_Solicitacoes= "api/Usuario_Solicitacoes";
 
+        public const string Server_Usuario_Solicitacoes_Aceitar = "api/Usuario_Solicitacoes/Aceitar";
+
+        public const string Server_Usuario_Solicitacoes_Recusar = "api/Usuario_Solicitacoes/Recusar";
+
         public const string Server_Clientes = "api/Clientes";
 
         public const string Server_Usuarios= "api/Usuarios";

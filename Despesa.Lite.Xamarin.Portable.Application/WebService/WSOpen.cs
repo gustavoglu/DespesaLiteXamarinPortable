@@ -26,7 +26,7 @@ namespace Despesa.Lite.Xamarin.Portable.Aplicacao.WebService
                 var obj = JsonConvert.DeserializeObject<T>(content);
                 return obj;
             }
-            catch
+            catch (Exception ex)
             {
                 return default(T);
             }

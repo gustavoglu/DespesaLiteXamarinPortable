@@ -13,8 +13,16 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Usuario_Solicitacao.ViewModels
 
         public string CompanhiaNome
         {
-            get { return companhiaNome; }
+            get { return _usuarioSolicitacao.Companhia.Nome; }
             set { companhiaNome = value; }
+        }
+
+        private string usuarioNome;
+
+        public string UsuarioNome
+        {
+            get { return _usuarioSolicitacao.Usuario.Nome; }
+            set { usuarioNome = value; }
         }
 
         private string status;
@@ -25,7 +33,7 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Usuario_Solicitacao.ViewModels
             {
                 if (_usuarioSolicitacao.Status == 0)
                 {
-                    return "Aguardado";
+                    return "Aguardando";
                 }
                 else if (_usuarioSolicitacao.Status == 1)
                 {

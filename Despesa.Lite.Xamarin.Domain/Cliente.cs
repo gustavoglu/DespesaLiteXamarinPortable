@@ -8,9 +8,9 @@ namespace Despesa.Lite.Xamarin.Domain
 {
    public class Cliente : EntityBase
     {
-        public string Nome { get; set; }
+        public string Nome { get; set; } = "";
 
-        public string RazaoSocial { get; set; }
+        public string RazaoSocial { get; set; } = "";
 
         public virtual ICollection<Visita> Visitas { get; set; }
 

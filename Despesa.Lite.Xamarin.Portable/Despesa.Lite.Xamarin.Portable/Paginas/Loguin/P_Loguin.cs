@@ -23,7 +23,7 @@ namespace Despesa.Lite.Xamarin.Portable.Paginas.Loguin
             Title = "Loguin";
 
             l_email = new Label() { Text = "E-mail", VerticalOptions = LayoutOptions.Center, HorizontalOptions = LayoutOptions.Center, HorizontalTextAlignment = TextAlignment.Center };
-            e_email = new Entry() { Text = "admin@admin.com",WidthRequest= 150, Placeholder = "", VerticalOptions = LayoutOptions.Center, HorizontalOptions = LayoutOptions.CenterAndExpand };
+            e_email = new Entry() { Text = "gustavoglu@hotmail.com",WidthRequest= 150, Placeholder = "", VerticalOptions = LayoutOptions.Center, HorizontalOptions = LayoutOptions.CenterAndExpand };
             e_senha = new Entry() { Text = "Giroldinhu20!" ,WidthRequest = 150, Placeholder = "", VerticalOptions = LayoutOptions.Center, HorizontalOptions = LayoutOptions.CenterAndExpand };
             l_senha = new Label() { Text = "Senha", VerticalOptions = LayoutOptions.Center, HorizontalOptions = LayoutOptions.Center, HorizontalTextAlignment = TextAlignment.Center };
             b_loguin = new Button() { Text = "Logar", HorizontalOptions = LayoutOptions.Center};

@@ -29,8 +29,8 @@ namespace Despesa.Lite.Xamarin.Domain
 
         public DateTime? DeletadoEm { get; set; }
 
-        public bool Ativo { get; set; }
+        public bool? Ativo { get; set; }
 
-        public bool Deletado { get; set; }
+        public bool? Deletado { get; set; }
     }
 }
